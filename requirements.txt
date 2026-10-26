@@ -1,0 +1,17 @@
+# Python 3.11 or later. GDAL command-line tools (gdalwarp, gdal_translate, gdaladdo) are needed for pipeline.tiles,
+# and QGIS (PyQGIS) only for the optional pipeline.gis_project.
+#
+# Pipeline: arrays, rasters, projections and the Planetary Computer catalogue
+numpy>=1.26
+scipy>=1.11
+rasterio>=1.3
+pyproj>=3.6
+shapely>=2.0
+pystac-client>=0.7
+planetary-computer>=1.0
+# Fields of The World field boundaries (pipeline.ftw)
+duckdb>=1.1
+# Maps, figures and web tiles (pipeline.maps, pipeline.tiles)
+matplotlib>=3.8
+pmtiles>=3.4
+Pillow>=10

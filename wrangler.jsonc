@@ -1,0 +1,17 @@
+{
+  // Static site: the page, PMTiles layers and per-site JSON are assets. worker.js only
+  // answers byte-range requests under /tiles/, which static assets serve as whole files.
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "waterfields",
+  "main": "worker.js",
+  "compatibility_date": "2026-10-01",
+  "assets": {
+    "directory": "./webgis",
+    "binding": "ASSETS",
+    "run_worker_first": ["/tiles/*"]
+  },
+  "routes": [
+    { "pattern": "waterfields.geoai.id", "custom_domain": true }
+  ],
+  "workers_dev": false
+}

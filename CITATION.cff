@@ -1,0 +1,17 @@
+cff-version: 1.2.0
+message: "If you use this software or its outputs, please cite it as below."
+title: "SRTSR0576 rapid mapping assessment: rapid mapping of water bodies, field systems and seasonal change around Southeast Asian archaeological landscapes from open satellite data"
+version: 0.1.0
+date-released: 2026-10-27
+license: MIT
+authors:
+  - family-names: Farel
+    given-names: Muhammad Dita
+keywords:
+  - remote sensing
+  - landscape archaeology
+  - Sentinel-1
+  - Sentinel-2
+  - water management
+  - field systems
+  - Southeast Asia

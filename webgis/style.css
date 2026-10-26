@@ -1,0 +1,292 @@
+:root {
+  --fs-s: 12px;
+  --fs-m: 14px;
+  --fs-l: 16px;
+  --bg: #f4f4f3;
+  --surface: #ffffff;
+  --sunken: #f4f4f3;
+  --ink: #1c1c1e;
+  --muted: #6b6b70;
+  --line: #e0e0de;
+  --accent: #c2410c;
+  --header: #18181b;
+  --header-ink: #f4f4f5;
+  --header-muted: #a1a1aa;
+  color-scheme: light;
+}
+:root[data-theme="dark"] {
+  --bg: #0f0f11;
+  --surface: #17171a;
+  --sunken: #1f1f23;
+  --ink: #ececee;
+  --muted: #9a9aa2;
+  --line: #2b2b30;
+  --accent: #f07a3e;
+  --header: #0b0b0d;
+  color-scheme: dark;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]):not([data-theme="dark"]) {
+    --bg: #0f0f11; --surface: #17171a; --sunken: #1f1f23; --ink: #ececee; --muted: #9a9aa2;
+    --line: #2b2b30; --accent: #f07a3e; --header: #0b0b0d;
+    color-scheme: dark;
+  }
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; height: 100%; }
+body {
+  font: 400 var(--fs-m)/1.45 system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  color: var(--ink);
+  background: var(--bg);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+button, select, input { font: inherit; color: inherit; }
+[hidden] { display: none !important; }
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+
+/* header */
+.bar {
+  min-height: 48px;
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 0 16px;
+  background: var(--header);
+  color: var(--header-ink);
+}
+/* the platform name takes the room left by the controls, on up to two lines, and ends in an ellipsis beyond that
+   (its title attribute holds the whole name); the space around it is margin, so that the clip falls between lines */
+.app-title {
+  flex: 1 1 0;
+  min-width: 0;
+  margin: 4px 0;
+  padding: 0;
+  font-size: var(--fs-l);
+  font-weight: 600;
+  line-height: 1.25;
+  letter-spacing: .01em;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  overflow: hidden;
+}
+.divider { width: 1px; height: 20px; flex: none; background: #3f3f46; }
+.site-select { display: flex; align-items: center; gap: 8px; flex: none; }
+.site-select .label { font-size: var(--fs-s); color: var(--header-muted); }
+.bar select {
+  background: #27272a;
+  color: var(--header-ink);
+  border: 1px solid #3f3f46;
+  border-radius: 4px;
+  padding: 4px 8px;
+  font-size: var(--fs-m);
+}
+.theme { flex: none; }
+.theme select { font-size: var(--fs-s); }
+/* view switch of narrow screens (Layers, Map, Statistics); wider screens show both panels beside the map */
+.views { display: none; }
+.views button {
+  flex: 1;
+  border: 0;
+  background: none;
+  color: var(--header-muted);
+  padding: 0 8px;
+  height: 100%;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+}
+.views button:hover { color: var(--header-ink); }
+.views button[aria-pressed="true"] { color: var(--header-ink); font-weight: 600; border-bottom-color: var(--accent); }
+
+/* layout */
+.body { flex: 1; min-height: 0; display: flex; }
+.dock {
+  flex: none;
+  background: var(--surface);
+  overflow: auto;
+  z-index: 3;  /* over the identify popup where a panel lies over the map (narrow screens) */
+}
+/* the panels narrow smoothly with the window, so that the map keeps most of the width on laptops */
+.dock.left { width: clamp(280px, 22vw, 320px); border-right: 1px solid var(--line); }
+.dock.right { width: clamp(300px, 24vw, 340px); border-left: 1px solid var(--line); }
+.pane-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 12px 16px;
+  font-weight: 600;
+  border-bottom: 1px solid var(--line);
+  position: sticky;
+  top: 0;
+  background: var(--surface);
+  z-index: 1;
+}
+.hint { font-size: var(--fs-s); font-weight: 400; color: var(--muted); }
+.link { border: 0; background: none; padding: 0; cursor: pointer; color: var(--accent); font-size: var(--fs-s); }
+
+.mapwrap { position: relative; flex: 1; min-width: 0; display: flex; flex-direction: column; }
+#map { flex: 1; min-height: 0; background: var(--sunken); }
+
+/* layer list */
+.group-title { padding: 12px 16px 4px; font-size: var(--fs-s); font-weight: 600; color: var(--muted); }
+.layer { border-bottom: 1px solid var(--line); }
+.layer-row { display: flex; align-items: flex-start; gap: 10px; padding: 10px 16px; }
+.layer-row input[type="checkbox"] { margin-top: 3px; accent-color: var(--accent); }
+.layer-row label { flex: 1; cursor: pointer; }
+.layer .title { display: block; }
+.layer .sub { display: block; font-size: var(--fs-s); color: var(--muted); }
+.layer .note { display: block; font-size: var(--fs-s); color: var(--accent); }
+.expand { border: 0; background: none; color: var(--muted); cursor: pointer; padding: 2px; }
+.expand svg { width: 14px; height: 14px; transition: transform .15s; }
+.layer.open .expand svg { transform: rotate(180deg); }
+.layer-detail { display: none; padding: 0 16px 12px 40px; }
+.layer.open .layer-detail { display: block; }
+.opacity { display: flex; align-items: center; gap: 8px; font-size: var(--fs-s); color: var(--muted); margin-bottom: 8px; }
+.opacity input { flex: 1; accent-color: var(--accent); }
+.swatches div { display: flex; gap: 8px; align-items: center; font-size: var(--fs-s); color: var(--muted); padding: 2px 0; }
+.swatches i { width: 12px; height: 12px; border-radius: 2px; flex: none; border: 1px solid rgba(0, 0, 0, .08); }
+
+/* tables */
+.section { border-bottom: 1px solid var(--line); padding-bottom: 6px; }
+.section h3 { margin: 0; padding: 12px 16px 4px; font-size: var(--fs-s); font-weight: 600; color: var(--muted); }
+.kv { display: flex; justify-content: space-between; gap: 12px; padding: 4px 16px; }
+.kv span:first-child { color: var(--muted); }
+.kv span:last-child { font-variant-numeric: tabular-nums; text-align: right; white-space: nowrap; }
+.kv.stack { display: block; }
+.kv.stack span:last-child { display: block; text-align: left; white-space: normal; }
+.kv small { display: block; font-size: var(--fs-s); }
+.bars { padding: 6px 16px 4px; }
+.bar-row { display: grid; grid-template-columns: 1fr 64px; gap: 8px; align-items: center; font-size: var(--fs-s); padding: 2px 0; }
+.bar-row .track { grid-column: 1 / -1; height: 6px; background: var(--sunken); border-radius: 2px; overflow: hidden; }
+.bar-row .fill { height: 100%; }
+.bar-row .val { text-align: right; font-variant-numeric: tabular-nums; }
+.fine { padding: 10px 16px 16px; font-size: var(--fs-s); color: var(--muted); }
+.fine a { color: var(--accent); }
+.fine.tight { padding: 2px 16px 6px; }
+
+/* map widgets */
+.basemaps {
+  position: absolute;
+  top: 12px;
+  right: 56px;
+  display: flex;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  overflow: hidden;
+  z-index: 3;  /* over the identify popup, so that the basemap can be changed while it is open */
+}
+.basemaps button { border: 0; border-right: 1px solid var(--line); background: none; padding: 6px 10px; cursor: pointer; font-size: var(--fs-s); color: var(--muted); }
+.basemaps button:last-child { border-right: 0; }
+.basemaps button[aria-pressed="true"] { color: var(--ink); font-weight: 600; background: var(--sunken); }
+.status {
+  min-height: 28px;
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 0 4px 0 12px;
+  font-size: var(--fs-s);
+  color: var(--muted);
+  background: var(--surface);
+  border-top: 1px solid var(--line);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.status .credits { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; text-align: right; cursor: pointer; }
+.status a { color: var(--muted); }
+.status .more { flex: none; border: 0; background: none; color: var(--muted); cursor: pointer; padding: 4px; margin-left: -12px; display: flex; }
+.status .more svg { width: 14px; height: 14px; }
+.status.open { align-items: flex-start; padding-top: 6px; padding-bottom: 6px; }
+.status.open .credits { white-space: normal; text-align: left; }
+.status.open .more svg { transform: rotate(180deg); }
+.maplibregl-ctrl-group { border-radius: 4px !important; box-shadow: none !important; border: 1px solid var(--line); }
+.maplibregl-ctrl-scale { font-size: var(--fs-s); }
+.maplibregl-ctrl-top-right { z-index: 3; }  /* the zoom buttons stay over the identify popup */
+
+/* identify popup, in the page theme, over the scale bar and under the basemap and zoom buttons; its
+   side of the point and its body height are set in app.js */
+.maplibregl-popup.identify { z-index: 2; }
+.identify .maplibregl-popup-content {
+  padding: 0;
+  background: var(--surface);
+  color: var(--ink);
+  font-size: var(--fs-m);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, .18);
+}
+.identify.maplibregl-popup-anchor-top .maplibregl-popup-tip,
+.identify.maplibregl-popup-anchor-top-left .maplibregl-popup-tip,
+.identify.maplibregl-popup-anchor-top-right .maplibregl-popup-tip { border-bottom-color: var(--line); }
+.identify.maplibregl-popup-anchor-bottom .maplibregl-popup-tip,
+.identify.maplibregl-popup-anchor-bottom-left .maplibregl-popup-tip,
+.identify.maplibregl-popup-anchor-bottom-right .maplibregl-popup-tip { border-top-color: var(--line); }
+.identify.maplibregl-popup-anchor-left .maplibregl-popup-tip { border-right-color: var(--line); }
+.identify.maplibregl-popup-anchor-right .maplibregl-popup-tip { border-left-color: var(--line); }
+.identify .maplibregl-popup-close-button {
+  width: 32px;
+  height: 32px;
+  font-size: var(--fs-l);
+  color: var(--muted);
+  border-radius: 0 4px 0 0;
+}
+.identify .maplibregl-popup-close-button:hover { color: var(--ink); background: var(--sunken); }
+.pop-head { padding: 8px 36px 8px 12px; font-size: var(--fs-s); color: var(--muted); font-variant-numeric: tabular-nums; border-bottom: 1px solid var(--line); }
+.pop-body { max-height: 360px; overflow: auto; overscroll-behavior: contain; }
+.pop-body > :last-child { border-bottom: 0; }
+.id-block { border-bottom: 1px solid var(--line); padding: 6px 0; }
+.id-block h4 { margin: 0; padding: 2px 12px; font-size: var(--fs-s); font-weight: 600; color: var(--muted); }
+.id-value { display: flex; gap: 8px; align-items: center; padding: 2px 12px; }
+.id-value i { width: 12px; height: 12px; border-radius: 2px; flex: none; }
+.pop-body .kv { padding: 2px 12px; }
+.pop-body .fine { padding: 8px 12px; }
+.pop-body .fine.tight { padding: 2px 12px 4px; }
+
+/* narrow screens (tablets, and phones held sideways): the panels lie over the bottom of the map, one at a time.
+   NARROW in app.js holds the same width. */
+@media (max-width: 1023px) {
+  /* row one: the platform name and the study area, which keeps the width of its longest name; row two: the view switch */
+  .bar { flex-wrap: wrap; row-gap: 0; column-gap: 12px; }
+  .app-title { font-size: var(--fs-m); margin: 6px 0; }
+  .site-select .label, .divider, .theme { display: none; }
+  .site-select { flex: none; min-width: 0; max-width: 55%; }
+  .bar select { min-width: 0; max-width: 100%; }
+  .views { display: flex; flex: 0 0 calc(100% + 32px); height: 40px; margin: 0 -16px; border-top: 1px solid #27272a; }
+  .dock { position: absolute; left: 0; right: 0; bottom: 0; top: auto; width: auto; max-height: 50%; border-top: 1px solid var(--line); }
+  .dock.left, .dock.right { width: auto; border-left: 0; border-right: 0; }
+  body:not([data-view="layers"]) .dock.left, body:not([data-view="stats"]) .dock.right { display: none; }
+  .body { position: relative; }
+  /* the open panel lies over the bottom of the map; --dock-h (set in app.js) keeps the scale bar above it */
+  .maplibregl-ctrl-bottom-right { bottom: var(--dock-h, 0px); }
+  .bar select { font-size: var(--fs-l); }  /* 16px, so that iOS does not zoom the page when the list opens */
+  .status #crs { display: none; }
+  .basemaps { right: 52px; }
+}
+
+/* phones and small tablets held upright: the platform name, the study area and the view switch each get a row.
+   Phones held sideways keep the two-row header, so that the map keeps its height. */
+@media (max-width: 600px), (max-width: 767px) and (min-height: 451px) {
+  .bar { padding: 0 12px; }
+  .app-title { flex: 1 1 100%; margin: 6px 0 2px; -webkit-line-clamp: 3; line-clamp: 3; }  /* the whole name, on up to three lines */
+  .site-select { flex: 1 1 100%; max-width: 100%; padding-bottom: 6px; }
+  .site-select select { flex: 1; }
+  .views { flex-basis: calc(100% + 24px); margin: 0 -12px; }
+}
+
+/* phones: panels of a fixed height */
+@media (max-width: 600px) {
+  .dock.left, .dock.right { height: 45%; max-height: none; }
+  .status #coords { display: none; }
+}
+
+/* phones held sideways: lower docks, so that a strip of map stays open above them */
+@media (max-width: 1023px) and (max-height: 450px) {
+  .dock.left, .dock.right { height: 40%; max-height: none; }
+}

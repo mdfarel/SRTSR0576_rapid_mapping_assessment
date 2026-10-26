@@ -1,0 +1,12 @@
+{
+  "name": "srtsr0576-rapid-mapping-assessment",
+  "private": true,
+  "description": "Static WebGIS for the SRTSR0576 rapid-mapping outputs (served from webgis/ by a Cloudflare Worker).",
+  "scripts": {
+    "preview": "python3 serve.py 8765",
+    "deploy": "NODE_OPTIONS=--dns-result-order=ipv4first wrangler deploy"
+  },
+  "devDependencies": {
+    "wrangler": "4.142.0"
+  }
+}

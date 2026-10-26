@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SRTSR0576 - Rapid Mapping of Fields and Water Bodies from Open Satellite Data Task Assignment</title>
+  <meta name="description" content="SRTSR0576 - Rapid Mapping of Fields and Water Bodies from Open Satellite Data Task Assignment. A web GIS of the water bodies, field systems and seasonal change of 2024 in four study areas, mapped from open satellite data.">
+  <link rel="icon" href="favicon.png" type="image/png" sizes="64x64">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png" sizes="180x180">
+  <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@5.6.0/dist/maplibre-gl.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body data-view="layers">
+  <header class="bar">
+    <h1 class="app-title" title="SRTSR0576 - Rapid Mapping of Fields and Water Bodies from Open Satellite Data Task Assignment">SRTSR0576 - Rapid Mapping of Fields and Water Bodies from Open Satellite Data Task Assignment</h1>
+    <span class="divider" aria-hidden="true"></span>
+    <label class="site-select">
+      <span class="label">Study area</span>
+      <select id="site" aria-label="Study area"></select>
+    </label>
+    <label class="theme"><span class="sr">Theme</span>
+      <select id="theme"><option value="auto">Auto</option><option value="light">Light</option><option value="dark">Dark</option></select>
+    </label>
+    <!-- narrow screens only (up to 1023 px): the panels lie over the map there, so one view is shown at a time -->
+    <div class="views" role="group" aria-label="View">
+      <button type="button" data-view="layers" aria-pressed="true">Layers</button>
+      <button type="button" data-view="map" aria-pressed="false">Map</button>
+      <button type="button" data-view="stats" aria-pressed="false">Statistics</button>
+    </div>
+  </header>
+
+  <div class="body">
+    <aside class="dock left" id="layersDock" aria-label="Layers">
+      <div class="pane-head"><span>Layers</span><span class="hint">Click the map to identify</span></div>
+      <div id="layers"></div>
+    </aside>
+
+    <main class="mapwrap">
+      <div id="map" aria-label="Map"></div>
+      <div class="basemaps" id="basemaps" role="group" aria-label="Basemap"></div>
+    </main>
+
+    <aside class="dock right" id="statsDock" aria-label="Statistics">
+      <div class="pane-head"><span>Statistics</span><span class="hint" id="statsSite"></span></div>
+      <div id="stats"></div>
+    </aside>
+  </div>
+
+  <footer class="status" id="status">
+    <span id="coords">Lat, lon</span>
+    <span id="zoom">Zoom</span>
+    <span id="crs">Display EPSG:3857, analysis grid</span>
+    <span class="credits" id="credits"><a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">© OpenStreetMap contributors</a> (ODbL) · <a href="https://openfreemap.org" target="_blank" rel="noopener">OpenFreeMap</a> · Contains modified Copernicus Sentinel data 2024 · Sentinel-2 and Copernicus DEM GLO-30 under the Copernicus open data licence · Sentinel-1 RTC from Microsoft Planetary Computer (CC BY 4.0) · ESA WorldCover 2021 (Zanaga et al. 2022, CC BY 4.0) · JRC Global Surface Water (Pekel et al. 2016), European Commission · Fields of The World 2024 (Robinson et al. 2026, CC BY 4.0) · Place names on the Light, Dark and Streets backgrounds come from OpenStreetMap and are not part of this assessment · Code under the MIT licence · Derived data inherit the licences of their sources</span>
+    <button type="button" class="more" id="creditsMore" aria-expanded="false" aria-controls="credits" aria-label="Show all credits"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 10l4-4 4 4" fill="none" stroke="currentColor" stroke-width="1.5"/></svg></button>
+  </footer>
+
+  <script src="https://unpkg.com/maplibre-gl@5.6.0/dist/maplibre-gl.js"></script>
+  <script src="https://unpkg.com/pmtiles@4.3.0/dist/pmtiles.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

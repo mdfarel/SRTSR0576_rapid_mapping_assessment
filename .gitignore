@@ -1,0 +1,11 @@
+data/
+out/
+webgis/tiles/
+webgis/data/
+__pycache__/
+*.partial.npz
+.wrangler/
+node_modules/
+
+# The slide deck is internal (for the founder and the reviewer only), not part of the repository
+deck/
